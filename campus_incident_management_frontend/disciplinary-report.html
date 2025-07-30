@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Disciplinary Report - VIT</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>VIT Disciplinary Committee Report</h1>
+    <form id="disciplinaryReportForm">
+      <label for="facultyId">Faculty ID</label>
+      <input type="text" id="facultyId" name="facultyId" required>
+
+      <label for="studentRoll">Student Roll No</label>
+      <input type="text" id="studentRoll" name="studentRoll" required>
+
+      <label for="datetime">Date & Time</label>
+      <input type="datetime-local" id="datetime" name="datetime" required>
+
+      <label for="location">Location</label>
+      <input type="text" id="location" name="location" required>
+
+      <label for="description">Description of Incident</label>
+      <textarea id="description" name="description" required></textarea>
+
+      <label for="actionTaken">Action Taken</label>
+      <input type="text" id="actionTaken" name="actionTaken" placeholder="e.g., Sent to DSW" required>
+
+      <label for="evidence">Upload Evidence (optional)</label>
+      <input type="file" id="evidence" name="evidence">
+
+      <button type="submit">Submit Report</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('datetime').value = new Date().toISOString().slice(0,16);
+  </script>
+</body>
+</html>

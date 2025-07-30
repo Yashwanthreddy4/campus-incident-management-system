@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Report Incident - Global Campus</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      background-color: #121212;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 90%;
+      max-width: 700px;
+      margin: 50px auto;
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+    }
+    h2 {
+      color: #ff4c4c;
+      text-align: center;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    input, textarea, select {
+      background: #2a2a2a;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    input[type="file"] {
+      padding: 5px;
+      background: #2a2a2a;
+    }
+    label {
+      margin-top: 15px;
+    }
+    button {
+      background: #ff4c4c;
+      border: none;
+      padding: 12px;
+      color: white;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #e03a3a;
+    }
+    a {
+      color: #ff4c4c;
+      text-decoration: none;
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+    }
+    .dynamic-location {
+      display: none;
+    }
+    .subcategory, .more-details {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Report a Campus Incident</h2>
+    <form id="incidentForm">
+      <input type="text" id="title" placeholder="Incident Title" required>
+      
+      <textarea id="description" placeholder="Describe the incident in detail..." required></textarea>
+
+      <label for="category">Incident Category:</label>
+      <select id="category" required>
+        <option value="">Select Category</option>
+        <option value="harassment">Harassment</option>
+        <option value="accident">Accident</option>
+        <option value="infrastructure">Infrastructure</option>
+        <option value="vandalism">Vandalism</option>
+        <option value="theft">Theft</option>
+        <option value="bullying">Bullying</option>
+        <option value="fire">Fire</option>
+        <option value="others">Others</option>
+      </select>
+
+      <label for="subcategory" id="subcategoryLabel" style="display:none;">Subcategory:</label>
+      <select id="subcategory" class="subcategory">
+        <option value="">Select Subcategory</option>
+      </select>
+
+      <label for="campus">Select Campus:</label>
+      <select id="campus" required>
+        <option value="">Select Campus</option>
+        <option value="vellore">VIT Vellore</option>
+        <option value="chennai">VIT Chennai</option>
+        <option value="bhopal">VIT Bhopal</option>
+        <option value="amaravati">VIT Amaravati</option>
+      </select>
+
+      <label for="location">Location:</label>
+      <select id="location" required>
+        <option value="">Select Block/Location</option>
+      </select>
+
+      <div class="dynamic-location" id="otherLocationDiv">
+        <input type="text" id="otherLocation" placeholder="Please specify the location">
+      </div>
+
+      <input type="text" id="roomLocation" placeholder="Room No. / Specific Spot" required>
+
+      <select id="department">
+        <option value="">Involved Department (if any)</option>
+        <option value="admin">Administration</option>
+        <option value="maintenance">Maintenance</option>
+        <option value="security">Security</option>
+        <option value="academic">Academic Staff</option>
+      </select>
+
+      <select id="severity" required>
+        <option value="">Select Severity Level</option>
+        <option value="low">Low</option>
+        <option value="moderate">Moderate</option>
+        <option value="high">High</option>
+        <option value="critical">Critical</option>
+      </select>
+
+      <label for="dateTime">Incident Date & Time:</label>
+      <input type="datetime-local" id="dateTime" required>
+
+      <label for="proof">Upload Image or Document (Max 3):</label>
+      <input type="file" id="proof" accept=".jpg,.jpeg,.png,.pdf" multiple>
+
+      <input type="text" id="witness" placeholder="Witnesses (Name/Contact - optional)">
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="anonymous">
+        <label for="anonymous">Report as Anonymous</label>
+      </div>
+
+      <input type="text" id="contact" placeholder="Your Contact (Email or Phone - optional)">
+
+      <label for="moreDetails" id="moreDetailsLabel" style="display:none;">More Details:</label>
+      <textarea id="moreDetails" class="more-details" placeholder="Provide any additional details..." rows="4"></textarea>
+
+      <button type="submit">Submit Report</button>
+    </form>
+    <a href="index.html">← Back to Dashboard</a>
+  </div>
+
+  <script>
+    const locations = {
+      vellore: [
+        "SJT", "TT", "SMV", "Anna Auditorium", "Boys Hostel", "Girls Hostel",
+        "Central Library", "Main Canteen", "Greenos", "Outdoor Stadium"
+      ],
+      chennai: [
+        "AB1", "AB2", "Block A Hostel", "Block B Hostel", "CDMM Auditorium", 
+        "Central Library", "Food Court", "Sports Ground"
+      ],
+      bhopal: [
+        "Block A", "Block B", "Boys Hostel 1", "Boys Hostel 2", "Girls Hostel 1", 
+        "Girls Hostel 2", "Innovation Lab", "Main Auditorium", "Canteen"
+      ],
+      amaravati: [
+        "Engineering Block A", "Engineering Block B", "Hostel Tower 1 (Boys)", 
+        "Hostel Tower 2 (Girls)", "Amphitheatre", "Central Library", "Food Lounge"
+      ]
+    };
+
+    const categories = {
+      harassment: ["Sexual Harassment", "Verbal Abuse", "Bullying"],
+      accident: ["Vehicle Accident", "Slip & Fall", "Injury", "Medical Emergency"],
+      infrastructure: ["Power Outage", "Water Leakage", "Broken Facilities", "Elevator Malfunction"],
+      vandalism: ["Graffiti", "Broken Windows", "Damaged Property"],
+      theft: ["Stolen Property", "Burglary", "Robbery"],
+      bullying: ["Cyberbullying", "Physical Bullying", "Verbal Bullying"],
+      fire: ["Fire Incident", "Fire Alarm Malfunction", "Fire Drill"],
+      others: ["Miscellaneous"]
+    };
+
+    const campusSelect = document.getElementById("campus");
+    const locationSelect = document.getElementById("location");
+    const categorySelect = document.getElementById("category");
+    const subcategorySelect = document.getElementById("subcategory");
+    const subcategoryLabel = document.getElementById("subcategoryLabel");
+    const moreDetailsLabel = document.getElementById("moreDetailsLabel");
+    const moreDetails = document.getElementById("moreDetails");
+    const otherLocationDiv = document.getElementById("otherLocationDiv");
+
+    campusSelect.addEventListener("change", function () {
+      const selectedCampus = campusSelect.value;
+      locationSelect.innerHTML = '<option value="">Select Block/Location</option>';
+
+      if (selectedCampus && locations[selectedCampus]) {
+        locations[selectedCampus].forEach(block => {
+          const option = document.createElement("option");
+          option.value = block.toLowerCase().replace(/\s+/g, "_");
+          option.textContent = block;
+          locationSelect.appendChild(option);
+        });
+      }
+    });
+
+    locationSelect.addEventListener("change", function () {
+      if (locationSelect.value === "other") {
+        otherLocationDiv.style.display = "block";
+      } else {
+        otherLocationDiv.style.display = "none";
+      }
+    });
+
+    categorySelect.addEventListener("change", function () {
+      const selectedCategory = categorySelect.value;
+      subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
+      subcategoryLabel.style.display = 'none';
+      subcategorySelect.style.display = 'none';
+      moreDetailsLabel.style.display = 'none';
+      moreDetails.style.display = 'none';
+
+      if (selectedCategory && categories[selectedCategory]) {
+        subcategoryLabel.style.display = 'block';
+        subcategorySelect.style.display = 'block';
+        categories[selectedCategory].forEach(subcat => {
+          const option = document.createElement("option");
+          option.value = subcat.toLowerCase().replace(/\s+/g, "_");
+          option.textContent = subcat;
+          subcategorySelect.appendChild(option);
+        });
+      }
+
+      if (selectedCategory !== 'others') {
+        moreDetailsLabel.style.display = 'block';
+        moreDetails.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

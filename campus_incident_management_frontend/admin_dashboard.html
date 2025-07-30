@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hostel Analytics Panel</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #000;
+      color: #fff;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #ff4444;
+      margin-bottom: 24px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    nav a {
+      padding: 12px 24px;
+      background-color: #ff0000;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #cc0000;
+    }
+
+    .chart-container {
+      background-color: #1a1a1a;
+      padding: 30px;
+      margin: 30px auto;
+      border-radius: 16px;
+      max-width: 800px;
+      box-shadow: 0 6px 18px rgba(255, 0, 0, 0.3);
+    }
+
+    canvas {
+      margin-top: 20px;
+    }
+
+    select {
+      margin: 0 auto 20px;
+      display: block;
+      padding: 10px;
+      border-radius: 8px;
+      background: #1a1a1a;
+      color: white;
+      border: 1px solid #ff0000;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🏠 Hostel Analytics Panel</h1>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="dashboard.html">Statistics</a>
+    <a href="calender.html">Calendar</a>
+    <a href="admin_dashboard.html">Hostel Analytics</a>
+    <a href="academic_dashboard.html">Academic Analytics</a>
+  </nav>
+
+  <select id="campusSelect">
+    <option value="vellore">VIT Vellore</option>
+    <option value="chennai">VIT Chennai</option>
+    <option value="bhopal">VIT Bhopal</option>
+    <option value="amaravati">VIT Amaravati</option>
+  </select>
+
+  <div class="chart-container">
+    <h2>Reports by Hostel Block</h2>
+    <canvas id="hostelChart"></canvas>
+  </div>
+
+  <div class="chart-container">
+    <h2>Average Resolution Time (Hours)</h2>
+    <canvas id="hostelResolutionChart"></canvas>
+  </div>
+
+  <script>
+    const hostelData = {
+      vellore: {
+        labels: ['A', 'B', 'C', 'D'],
+        incidents: [12, 9, 7, 14],
+        resolution: [2.4, 3.1, 1.9, 2.8]
+      },
+      chennai: {
+        labels: ['Block A', 'Block B', 'Block C', 'Block D'],
+        incidents: [8, 6, 10, 7],
+        resolution: [3.0, 2.7, 3.4, 2.6]
+      },
+      bhopal: {
+        labels: ['B1', 'B2', 'G1', 'G2'],
+        incidents: [5, 7, 4, 6],
+        resolution: [2.0, 2.5, 1.7, 2.3]
+      },
+      amaravati: {
+        labels: ['H1', 'H2', 'H3', 'G1'],
+        incidents: [9, 10, 8, 6],
+        resolution: [2.8, 3.1, 2.9, 2.5]
+      }
+    };
+
+    const campusSelect = document.getElementById("campusSelect");
+    const ctxHostel = document.getElementById("hostelChart").getContext("2d");
+    const ctxResolution = document.getElementById("hostelResolutionChart").getContext("2d");
+
+    let hostelChart, resolutionChart;
+
+    function renderCharts(campus) {
+      const { labels, incidents, resolution } = hostelData[campus];
+
+      if (hostelChart) hostelChart.destroy();
+      if (resolutionChart) resolutionChart.destroy();
+
+      hostelChart = new Chart(ctxHostel, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Incidents',
+            data: incidents,
+            backgroundColor: '#ff0000',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: 'Reports by Hostel Block',
+              color: '#ff4444'
+            },
+            legend: { display: false }
+          },
+          scales: {
+            x: { ticks: { color: '#fff' } },
+            y: { ticks: { color: '#fff' }, beginAtZero: true }
+          }
+        }
+      });
+
+      resolutionChart = new Chart(ctxResolution, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Avg. Resolution Time (hrs)',
+            data: resolution,
+            borderColor: '#ff4444',
+            backgroundColor: 'rgba(255, 0, 0, 0.2)',
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: 'Average Resolution Time',
+              color: '#ff4444'
+            }
+          },
+          scales: {
+            x: { ticks: { color: '#fff' } },
+            y: { ticks: { color: '#fff' }, beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    campusSelect.addEventListener("change", function () {
+      renderCharts(this.value);
+    });
+
+    // Initial render
+    renderCharts(campusSelect.value);
+  </script>
+
+</body>
+</html>

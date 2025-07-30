@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Info - Campus Analytics</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #000;
+      color: #fff;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #ff4444;
+      margin-bottom: 24px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    nav a {
+      padding: 12px 24px;
+      background-color: #ff0000;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #cc0000;
+    }
+
+    .chart-container {
+      background-color: #1a1a1a;
+      padding: 30px;
+      margin: 30px auto;
+      border-radius: 16px;
+      max-width: 800px;
+      box-shadow: 0 6px 18px rgba(255, 0, 0, 0.3);
+      color: #fff;
+    }
+
+    canvas {
+      margin-top: 20px;
+    }
+
+    select {
+      padding: 8px;
+      background-color: #1a1a1a;
+      color: #fff;
+      border: 2px solid #ff4444;
+      border-radius: 6px;
+      font-size: 16px;
+      margin: 20px;
+      width: 200px;
+    }
+
+    .container {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🏢 Admin Info - Campus Analytics</h1>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="dashboard.html">Statistics</a>
+    <a href="calender.html">Calendar</a>
+    <a href="admin_dashboard.html">Hostel Analytics</a>
+    <a href="academic_dashboard.html">Academic Analytics</a>
+    <a href="info.html">Campus Info</a>
+  </nav>
+
+  <div class="container">
+    <h2>Select Campus</h2>
+    <select id="campusSelect">
+      <option value="vellore">VIT Vellore</option>
+      <option value="chennai">VIT Chennai</option>
+      <option value="bhopal">VIT Bhopal</option>
+      <option value="amaravati">VIT Amaravati</option>
+    </select>
+
+    <div id="campusStats" style="display:none;">
+      <div class="chart-container">
+        <h2>Reports by Academic Block</h2>
+        <canvas id="academicChart"></canvas>
+      </div>
+
+      <div class="chart-container">
+        <h2>Average Resolution Time (in Hours)</h2>
+        <canvas id="academicResolutionChart"></canvas>
+      </div>
+
+      <div class="chart-container">
+        <h2>Response Time Trend</h2>
+        <canvas id="academicResponseChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const campusData = {
+      vellore: {
+        academicBlocks: ['SJT', 'TT', 'MB', 'SMV', 'GDN'],
+        incidentData: [10, 14, 6, 8, 12],
+        resolutionTime: [2.2, 3.0, 1.8, 2.5, 3.2],
+        responseTime: [2.5, 2.9, 3.1, 2.7, 2.4]
+      },
+      chennai: {
+        academicBlocks: ['AB1', 'AB2', 'AB3', 'AB4', 'MG'],
+        incidentData: [5, 8, 6, 9, 7],
+        resolutionTime: [1.5, 2.5, 2.1, 2.8, 3.0],
+        responseTime: [2.0, 2.2, 2.5, 2.3, 2.1]
+      },
+      bhopal: {
+        academicBlocks: ['B1', 'B2', 'B3', 'G1', 'G2'],
+        incidentData: [3, 4, 5, 2, 6],
+        resolutionTime: [1.8, 2.4, 2.2, 1.6, 2.9],
+        responseTime: [1.9, 2.3, 2.1, 1.8, 2.0]
+      },
+      amaravati: {
+        academicBlocks: ['A1', 'A2', 'A3', 'G1', 'G2'],
+        incidentData: [7, 9, 4, 6, 8],
+        resolutionTime: [2.0, 2.3, 2.5, 1.9, 2.7],
+        responseTime: [2.6, 2.8, 3.0, 2.5, 2.4]
+      }
+    };
+
+    let academicChart, academicResolutionChart, academicResponseChart;
+
+    function destroyCharts() {
+      if (academicChart) academicChart.destroy();
+      if (academicResolutionChart) academicResolutionChart.destroy();
+      if (academicResponseChart) academicResponseChart.destroy();
+    }
+
+    function updateCampusStats(campus) {
+      const data = campusData[campus];
+      document.getElementById('campusStats').style.display = 'block';
+
+      // Destroy old charts before creating new ones
+      destroyCharts();
+
+      // Update Reports by Academic Block Chart
+      academicChart = new Chart(document.getElementById('academicChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: data.academicBlocks, // Building names as labels
+          datasets: [{
+            label: 'Incidents',
+            data: data.incidentData,
+            backgroundColor: '#ff0000',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: 'Reports by Academic Block',
+              color: '#ff4444'
+            },
+            legend: { display: false }
+          },
+          scales: {
+            x: { ticks: { color: '#fff' } },
+            y: { ticks: { color: '#fff' }, beginAtZero: true }
+          }
+        }
+      });
+
+      // Update Average Resolution Time Chart
+      academicResolutionChart = new Chart(document.getElementById('academicResolutionChart').getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: data.academicBlocks, // Building names as labels
+          datasets: [{
+            label: 'Avg. Resolution Time (hrs)',
+            data: data.resolutionTime,
+            borderColor: '#ff4444',
+            backgroundColor: 'rgba(255, 0, 0, 0.2)',
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: 'Average Resolution Time',
+              color: '#ff4444'
+            }
+          },
+          scales: {
+            x: { ticks: { color: '#fff' } },
+            y: { ticks: { color: '#fff' }, beginAtZero: true }
+          }
+        }
+      });
+
+      // Update Response Time Trend Chart
+      academicResponseChart = new Chart(document.getElementById('academicResponseChart').getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'], // Days as labels
+          datasets: [{
+            label: 'Avg. Response Time (hrs)',
+            data: data.responseTime,
+            borderColor: '#ff0000',
+            backgroundColor: 'rgba(255, 0, 0, 0.2)',
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: 'Response Time Trend',
+              color: '#ff4444'
+            }
+          },
+          scales: {
+            x: { ticks: { color: '#fff' } },
+            y: { ticks: { color: '#fff' }, beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    document.getElementById('campusSelect').addEventListener('change', function(event) {
+      updateCampusStats(event.target.value);
+    });
+
+    // Initialize the default campus (Vellore)
+    updateCampusStats('vellore');
+  </script>
+</body>
+</html>

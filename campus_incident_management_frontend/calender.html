@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Incident Calendar</title>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #000;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+    }
+
+    h1 {
+      color: #ff4444;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #calendar {
+      max-width: 1100px;
+      margin: 0 auto;
+      background-color: #1a1a1a;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(255, 0, 0, 0.3);
+    }
+
+    .fc-event {
+      color: #fff !important;
+      background-color: #ff0000 !important;
+      border: none;
+    }
+
+    .fc-toolbar-title {
+      color: #fff;
+    }
+
+    .fc-button {
+      background-color: #ff0000 !important;
+      border: none !important;
+    }
+
+    .fc-button:hover {
+      background-color: #cc0000 !important;
+    }
+
+    .fc-event-title {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📅 Incident Calendar View</h1>
+  <div id="calendar"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const calendarEl = document.getElementById('calendar');
+
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        themeSystem: 'standard',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        events: [
+          {
+            title: 'Water Leakage - SJT',
+            start: '2025-04-10',
+            extendedProps: {
+              campus: 'Vellore',
+              category: 'Infrastructure',
+              severity: 'High',
+              status: 'Resolved',
+              reportedBy: 'Room 406, SJT',
+              description: 'Persistent water leakage near stairwell.'
+            }
+          },
+          {
+            title: 'Electric Short - TT',
+            start: '2025-04-14',
+            extendedProps: {
+              campus: 'Vellore',
+              category: 'Infrastructure',
+              severity: 'Medium',
+              status: 'In Progress',
+              reportedBy: 'Lab TT-12',
+              description: 'Short circuit during lab session.'
+            }
+          },
+          {
+            title: 'Unauthorized Gathering - AB1',
+            start: '2025-04-12',
+            extendedProps: {
+              campus: 'Chennai',
+              category: 'Discipline',
+              severity: 'Low',
+              status: 'Under Review',
+              reportedBy: 'Security Block AB1',
+              description: 'More than 30 students gathered without approval.'
+            }
+          },
+          {
+            title: 'Harassment Complaint - Hostel G4',
+            start: '2025-04-15',
+            extendedProps: {
+              campus: 'Bhopal',
+              category: 'Harassment',
+              severity: 'High',
+              status: 'Resolved',
+              reportedBy: 'Room G402',
+              description: 'Verbal abuse and inappropriate behavior.'
+            }
+          }
+        ],
+        eventClick: function(info) {
+          const props = info.event.extendedProps;
+          const content = `
+            🏫 Campus: ${props.campus}
+            📍 Location: ${info.event.title}
+            🗂 Category: ${props.category}
+            🔥 Severity: ${props.severity}
+            📌 Status: ${props.status}
+            👤 Reported by: ${props.reportedBy}
+            📝 Description: ${props.description}
+          `;
+          alert(content);
+        }
+      });
+
+      calendar.render();
+    });
+  </script>
+
+</body>
+</html>

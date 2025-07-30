@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Campus Incident Management System</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      text-align: center;
+    }
+    h1 {
+      color: red;
+      margin-bottom: 10px;
+    }
+    nav {
+      margin-bottom: 30px;
+    }
+    nav a {
+      margin: 0 15px;
+      color: rgb(239, 238, 238);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .info-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .section {
+      flex: 1 1 45%;
+      background-color: #111;
+      border: 1px solid red;
+      border-radius: 10px;
+      padding: 20px;
+      min-width: 300px;
+      box-sizing: border-box;
+      text-align: left;
+    }
+    .section h2 {
+      color: red;
+      margin-top: 0;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    @media (max-width: 768px) {
+      .section {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Campus Incident Management System</h1>
+    <nav>
+      <a href="register.html">Register</a>
+      <a href="login.html">Login</a>
+      <a href="report.html">Report Incident</a>
+      <a href="incidents.html">View Incidents</a>
+      <a href="disciplinary-report.html">Faculty Reporting Incidents</a>
+      <a href="dashboard.html">📊 Statistics</a>
+    </nav>
+
+    <p style="margin-bottom: 40px;">
+      Welcome to the Campus Incident Management System for VIT Vellore. 
+      Please register or login to report or view incidents.
+    </p>
+
+    <div class="info-section">
+      <div class="section">
+        <h2>About the System</h2>
+        <p>
+          A centralized platform for VIT students and faculty to report, monitor, and manage incidents across the campus in a structured and secure way.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>Features</h2>
+        <ul>
+          <li>🧑‍🎓 Student Registration & Login</li>
+          <li>📝 Incident Reporting by Students</li>
+          <li>🧑‍🏫 Faculty Disciplinary Reporting</li>
+          <li>📄 DSW Dashboard (Coming Soon)</li>
+          <li>🔍 Search & Filter Reports</li>
+        </ul>
+      </div>
+      
+      <div class="info-section">
+        <div class="section">
+          <h2>VIT Disciplinary Committee</h2>
+          <p>
+            At VIT Vellore, select faculty members wear red tags and serve as part of the <strong>VIT Disciplinary Committee</strong>. These members are authorized to observe and report unusual or unacceptable student behavior across the campus. The reports they submit are taken seriously and initiate a formal review process involving the Dean - Student Welfare (DSW) office.
+          </p>
+        </div>
+      
+        <div class="section">
+          <h2>DSW Office Investigation</h2>
+          <p>
+            All disciplinary reports submitted by faculty are directed to the <strong>DSW Office</strong> for further review and investigation. Based on the nature of the incident, students may be called for inquiry, and appropriate actions are taken following VIT's code of conduct.
+          </p>
+        </div>
+      
+        <div class="section">
+          <h2>Anonymous Reporting (Coming Soon)</h2>
+          <p>
+            To empower students to report issues without fear, we are working on a feature that will allow <strong>anonymous incident submissions</strong>. These reports will be carefully filtered and reviewed by designated authorities while ensuring the student's identity remains protected.
+          </p>
+        </div>
+      
+        <div class="section">
+          <h2>Use Cases</h2>
+          <ul>
+            <li>📢 Reporting ragging or bullying on campus</li>
+            <li>🧾 Faculty reporting academic dishonesty</li>
+            <li>🎒 Reporting lost or found personal belongings</li>
+            <li>🚫 Notifying authorities of restricted area violations</li>
+            <li>🧍 Tracking repeated behavioral violations by a student</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="section">
+        <h2>Why This Matters?</h2>
+        <p>
+          This system helps maintain a safe campus with:
+        </p>
+        <ul>
+          <li>✅ Accountability</li>
+          <li>✅ Fast Investigation</li>
+          <li>✅ Transparent Records</li>
+          <li>✅ Fair Student Evaluation</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>Important Note</h2>
+        <p>
+          All reports are reviewed by authorities. False or inappropriate reports will result in strict action as per university guidelines.
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+
+

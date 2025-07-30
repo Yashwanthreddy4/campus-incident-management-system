@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Campus Incident Management</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <style>
+    #chart-container, #map {
+      width: 90%;
+      margin: 20px auto;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(255, 0, 0, 0.3);
+    }
+
+    #chart-container {
+      background-color: #1a1a1a;
+      padding: 20px;
+    }
+
+    #map {
+      height: 400px;
+    }
+
+    canvas {
+      background-color: #111;
+      border-radius: 12px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ff4444;
+      margin-bottom: 24px;
+    }
+
+    body {
+      background-color: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Incident Dashboard</h1>
+
+  <div id="chart-container">
+    <canvas id="incidentChart"></canvas>
+  </div>
+
+  <div id="map"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
